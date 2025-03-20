@@ -126,6 +126,29 @@ const uploadComicStructure = async (req, res) => {
     }
   };
 
+  const getComicsByCollection = async (req, res) => {
+    const { id } = req.params; // id de la colección
+    try {
+      const comics = await Comic.find({ collection: id });
+      res.json(comics);
+    } catch (error) {
+      console.error("Error al obtener cómics por colección:", error);
+      res.status(500).json({ message: "Error al obtener cómics", error });
+    }
+  };
+
+  const updateComic = async (req, res) => {
+    try {
+      const comic = await Comic.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (!comic) {
+        return res.status(404).json({ message: 'Cómic no encontrado' });
+      }
+      res.json(comic);
+    } catch (error) {
+      res.status(500).json({ message: 'Error al actualizar el cómic', error });
+    }
+  };
+
 module.exports = {
   getComics,
   addComic,
@@ -133,6 +156,8 @@ module.exports = {
   deleteComic,
   getReadingStats,
   scanFolderAndInsert,  // Endpoint antiguo - lo mantenemos
-  uploadComicStructure  // Nuevo endpoint para la subida de los comics
+  uploadComicStructure,  // Nuevo endpoint para la subida de los comics
+  getComicsByCollection,
+  updateComic,
 };
 

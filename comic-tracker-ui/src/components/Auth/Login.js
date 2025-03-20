@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../slices/authSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,23 +10,26 @@ const Login = () => {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      // Almacena el token en localStorage (o en Redux si lo implementas)
-      localStorage.setItem('token', response.data.token);
+      // Despacha la acción de login usando Redux Toolkit
+      const result = await dispatch(loginUser({ email, password })).unwrap();
+      // Opcional: guardar en localStorage para persistencia
+      localStorage.setItem('token', result.token);
       setMessage({ type: 'success', text: 'Inicio de sesión exitoso!' });
-      // Redirige al Dashboard
+      console.log("Token guardado, redirigiendo al Dashboard...");
       navigate('/');
     } catch (error) {
       setMessage({ 
         type: 'danger', 
-        text: error.response?.data?.message || 'Error al iniciar sesión' 
+        text: error.message || 'Error al iniciar sesión' 
       });
+      console.error("Error en login:", error);
     }
     setLoading(false);
   };

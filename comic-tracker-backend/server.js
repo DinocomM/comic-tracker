@@ -5,12 +5,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const userRoutes = require('./routes/userRoutes');
-const collectionRoutes = require('./routes/collectionRoutes');
-// (Puedes importar otras rutas, por ejemplo, de cómics, etc.)
+// Otras rutas, por ejemplo, de colecciones o cómics
+const collectionRoutes = require('./routes/collectionRoutes'); // Importa rutas de colecciones
+const comicRoutes = require('./routes/comicRoutes');           // Importa rutas de cómics
+
 
 const app = express();
 
-// Aumenta el límite del body parser si es necesario
+// Configura el body parser con un límite adecuado
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(cors());
@@ -25,8 +27,9 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Rutas de la API
 app.use('/api/users', userRoutes);
-app.use('/api/collections', collectionRoutes);
-// Otros endpoints (por ejemplo, /api/comics) se agregan aquí
+// Aquí se agregarían otras rutas (por ejemplo, /api/collections)
+app.use('/api/collections', collectionRoutes);  // Define la ruta para colecciones
+app.use('/api/comics', comicRoutes);             // Define la ruta para cómics
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

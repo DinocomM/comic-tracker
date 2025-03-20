@@ -49,7 +49,7 @@ const Dashboard = () => {
                 Ver Colecciones
               </Button>
               <Button as={Link} to="/folder-scanner" variant="secondary">
-                Escanear Carpeta
+              Nueva Coleccion por Escaneo de Carpeta
               </Button>
             </Card.Body>
           </Card>

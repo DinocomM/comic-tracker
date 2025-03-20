@@ -20,12 +20,18 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
+    console.log('Datos recibidos en login:', req.body);
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: 'Credenciales inválidas' });
+    if (!user) {
+      console.log('Usuario no encontrado para:', email);
+      return res.status(400).json({ message: 'Credenciales inválidas' });
+    }
     const isMatch = await user.comparePassword(password);
-    if (!isMatch) return res.status(400).json({ message: 'Credenciales inválidas' });
-    // Genera el token JWT
+    if (!isMatch) {
+      console.log('Contraseña incorrecta para:', email);
+      return res.status(400).json({ message: 'Credenciales inválidas' });
+    }
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.JWT_SECRET,
@@ -33,6 +39,7 @@ const loginUser = async (req, res) => {
     );
     res.json({ token, user: { id: user._id, email: user.email, name: user.name } });
   } catch (error) {
+    console.error('Error en login:', error);
     res.status(500).json({ message: 'Error al iniciar sesión', error });
   }
 };

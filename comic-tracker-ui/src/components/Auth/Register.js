@@ -1,46 +1,33 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../slices/authSlice';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { registerStatus, registerError } = useSelector((state) => state.auth);
+  const [message, setMessage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validación básica de contraseñas
     if (password !== confirmPassword) {
       setMessage({ type: 'danger', text: 'Las contraseñas no coinciden' });
       return;
     }
-
     try {
-      // Realizamos la petición POST al endpoint de registro en el backend
-      const response = await axios.post('http://localhost:5000/api/users/register', {
-        email,
-        password,
-        name
-      });
-
-      // Se espera una respuesta exitosa desde el backend
-      setMessage({ type: 'success', text: response.data.message });
-      
-      // Redirige al login después de 2 segundos
+      await dispatch(registerUser({ email, password, name })).unwrap();
+      setMessage({ type: 'success', text: 'Usuario registrado correctamente. Redirigiendo a login...' });
       setTimeout(() => {
         navigate('/login');
       }, 2000);
     } catch (error) {
-      // En caso de error, se muestra el mensaje proveniente del backend
-      setMessage({
-        type: 'danger',
-        text: error.response?.data?.message || 'Error en el registro'
-      });
+      setMessage({ type: 'danger', text: error.message || 'Error en el registro' });
     }
   };
 
@@ -89,8 +76,8 @@ const Register = () => {
             required
           />
         </Form.Group>
-        <Button variant="primary" type="submit" className="mt-4">
-          Registrarse
+        <Button variant="primary" type="submit" className="mt-4" disabled={registerStatus === 'loading'}>
+          {registerStatus === 'loading' ? 'Registrando...' : 'Registrarse'}
         </Button>
       </Form>
     </Container>
