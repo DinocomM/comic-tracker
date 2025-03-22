@@ -1,0 +1,53 @@
+/* Variante normal */
+@font-face {
+    font-family: 'Anime Ace 2.0';
+    src: url('../assets/fonts/AnimeAce20Bb-K97.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Variante bold */
+@font-face {
+    font-family: 'Anime Ace 2.0';
+    src: url('../assets/fonts/AnimeAce20BbBold-2Av.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Variante italic */
+@font-face {
+    font-family: 'Anime Ace 2.0';
+    src: url('../assets/fonts/AnimeAce20BbItalic-vlA.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Fuente para los títulos */
+@font-face {
+    font-family: 'Badaboom';
+    src: url('../assets/fonts/BADABB__.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Asigna Anime Ace 2.0 al texto general */
+/* body {
+    font-family: 'Anime Ace 2.0', sans-serif;
+  } */
+
+body {
+font-family: "Red Hat Display", sans-serif;
+}
+
+body, .container, .row, .col, .navbar, .nav, .btn {
+/* font-family: 'Anime Ace 2.0', sans-serif !important; */
+font-family: "Red Hat Display", sans-serif !important;
+}
+
+/* Asigna Badaboom a los títulos */
+h1, h2, h3, h4, h5, h6 {
+    /* font-family: 'Badaboom', sans-serif; */
+    font-family: 'Anime Ace 2.0', sans-serif !important;
+    font-weight: bold;
+    font-style: normal;
+}

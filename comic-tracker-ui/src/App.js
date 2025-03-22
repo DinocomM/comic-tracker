@@ -1,11 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import './styles/main.css';
+
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 
 import Dashboard from './components/Dashboard/Dashboard';
-import CollectionList from './components/Dashboard/CollectionList';
+// import CollectionList from './components/Dashboard/CollectionList';
 import CollectionManager from './components/Dashboard/CollectionManager';
 import CollectionComics from './components/Dashboard/CollectionComics';
 import FolderScanner from './components/FolderScanner';

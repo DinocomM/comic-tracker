@@ -1,5 +1,6 @@
 {
   "name": "comic-tracker-ui",
+  "homepage": "/comic-tracker-ui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
